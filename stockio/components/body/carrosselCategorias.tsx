@@ -1,30 +1,32 @@
-import React from 'react';
+"use client";
+import React, {useRef, useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-const categoriesData = [
-  { id: 1, name: 'mercado', href: '#' },
-  { id: 2, name: 'farmacia', href: '#' },
-  { id: 3, name: 'beleza', href: '#' },
-  { id: 4, name: 'moda', href: '#' },
-  { id: 5, name: 'eletronicos',  href: '#' },
-  { id: 6, name: 'jogos', href: '#' },
-  { id: 7, name: 'brinquedos', href: '#' },
-  { id: 8, name: 'casa', href: '#' },
-];
-
-
-
+import { categoriesData } from '@/mock/categoriasMock';
+import { useDragScroll } from '../hooks/useDragScroll';
 
 const Categoria = () => {
-
+    
+      const {
+        carrosselRef,
+        handleMouseDown,
+        handleMouseLeave,
+        handleMouseUp,
+        handleMouseMove,
+        } = useDragScroll();
     return (
         <section className="w-full">
             <h2 className="text-3xl font-semibold md:text-5xl  text-black mb-4">
                 Categoria
             </h2>
 
-            <div className="flex overflow-x-auto space-x-4 w-full h-[180px] items-center sem-barra">
+            <div ref={carrosselRef}
+                 onMouseDown={handleMouseDown}
+                 onMouseLeave={handleMouseLeave}
+                 onMouseUp={handleMouseUp}
+                 onMouseMove={handleMouseMove}
+
+                className="flex overflow-x-auto space-x-4 w-full h-[180px] items-center sem-barra cursor-grab scroll-smooth select-none">
                 {categoriesData.map((category) => {
                     const iconPath = `/images/icons/${category.name}.svg`;
                     return (
