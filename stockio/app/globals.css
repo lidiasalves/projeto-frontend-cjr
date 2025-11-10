@@ -10,3 +10,12 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+
+.sem-barra {
+  scrollbar-width: none;
+}
+
+.sem-barra::-webkit-scrollbar {
+  display: none;
+}

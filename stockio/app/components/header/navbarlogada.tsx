@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 const NavbarLogada = () => {
     return (
-        <>
-        <nav className="w-screen h-[92px] bg-black text-white py-4 px-8 flex justify-between items-center shadow-lg">
+        
+        <nav className="w-screen h-auto md:h-[92px] bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-0">
             <div className="flex items-center">
                 <Link href="/">    
                     <Image
@@ -14,7 +14,7 @@ const NavbarLogada = () => {
                         alt="Logo Stockio"
                         width={220}
                         height={42}
-                        className="h-[42px] w-[220px]"
+                        priority
                         />
                 </Link>    
             </div>
@@ -45,14 +45,14 @@ const NavbarLogada = () => {
 
                     <Link 
                         href="#"
-                        aria-label="Meu carrinho"
+                        aria-label="Produtos"
                         className="p-2 rounded-full hover:bg-gray-800 transition-colors">
                         
                         <Icon icon="ion:bag-sharp" width="24" height="24" className="text-white" />
                     </Link>
                 </div>
         </nav>
-        </>
+        
     )
 }
 
