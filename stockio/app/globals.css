@@ -4,6 +4,7 @@
 :root {
   --background: #F6F3E4;
 }
+
 html, body {
   background-color: var(--background);
   height: 100%;
