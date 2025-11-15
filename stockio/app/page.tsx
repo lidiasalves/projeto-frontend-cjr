@@ -7,9 +7,10 @@ import NavbarDeslogada from '@/components/header/navbardeslogada';
 
 export default function Home() {
   return (
-    <>
+    <main className = "overflow-x-hidden">
       <NavbarDeslogada/>
       <Header />
       <BodyHome /> 
-    </>);
+    </main>
+  );
 }

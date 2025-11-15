@@ -15,7 +15,7 @@ interface Props {
 const CardProduto = ({ id, nome, preco, imagem,  stickerLoja, estoque }: Props) => { 
     return (
         <Link href={`/produto/${id}`} className = "block">
-            <article className="shrink-0 relative w:40 sm: w-30 md:w-56 bg-white rounded-lg hover:shadow-lg overflow-hidden transition p-3">
+            <article className="shrink-0 relative sm:w-30 md:w-56 bg-white rounded-lg hover:shadow-lg hover:scale-110 overflow-hidden transition p-3">
                 
                 {stickerLoja && (
                     <div className="absolute top-2 right-2 z-10">
