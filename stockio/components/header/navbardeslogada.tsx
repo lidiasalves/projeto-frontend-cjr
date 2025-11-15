@@ -24,7 +24,7 @@ const NavbarDeslogada = () => {
 
                                 
                 
-                <Link href="#" aria-label="Criar uma nova conta" className="font-semi-bold rounded-full bg-[#5E3C9E] py-2 px-4 hover:bg-gray-500 transition-colors">
+                <Link href="/cadastro" aria-label="Criar uma nova conta" className="font-semi-bold rounded-full bg-[#5E3C9E] py-2 px-4 hover:bg-gray-500 transition-colors">
                     Cadastre-se
                 </Link>
 
