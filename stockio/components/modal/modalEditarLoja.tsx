@@ -3,7 +3,7 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import { lojasMock } from "@/mock/lojasMock"; 
-
+import { categoriesData } from "@/mock/categoriasMock";
 
 const UploadArea = ({ label, icon, id }: { label: string; icon: string; id: string }) => (
   <label 
@@ -18,7 +18,7 @@ const UploadArea = ({ label, icon, id }: { label: string; icon: string; id: stri
     "
   >
     <div className="p-3 rounded-full bg-white shadow-sm mb-3 group-hover:scale-110 transition-transform">
-       {/* Exibe a imagem se tiver (mock) ou o ícone padrão */}
+
        <Icon icon={icon} width="32" className="text-gray-400 group-hover:text-roxo" />
     </div>
     <p className="text-gray-500 font-medium text-sm">{label}</p>
@@ -26,7 +26,7 @@ const UploadArea = ({ label, icon, id }: { label: string; icon: string; id: stri
   </label>
 );
 
-// --- Componente Principal ---
+
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -35,7 +35,7 @@ interface ModalProps {
 const ModalEditarLoja: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
-  // Pegando dados mockados (exemplo)
+
   const loja = lojasMock.find((l) => l.nome === "Rare Beauty");
 
   return (
@@ -44,7 +44,7 @@ const ModalEditarLoja: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       
 
       <div className="
-        bg-[#ECECEC] 
+        bg-[#EDEDED] 
         w-full max-w-4xl 
         max-h-[90vh] 
         rounded-[30px] 
@@ -66,13 +66,14 @@ const ModalEditarLoja: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         </div>
 
 
-        <div className="p-8 pt-0 flex flex-col gap-6">
+<div className="p-8 pt-0 flex flex-col gap-6">
           
 
           <div className="w-full">
             <input 
               type="text" 
               defaultValue={loja?.nome || "Nome da Loja"}
+              placeholder="Nome da Loja"
               className="
                 w-full 
                 bg-white rounded-full 
@@ -82,6 +83,38 @@ const ModalEditarLoja: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 shadow-sm
               "
             />
+          </div>
+
+          <div className="relative w-full">
+            <select
+              className="
+                w-full 
+                bg-white rounded-full 
+                h-16 px-8 pr-12 
+                text-xl text-black placeholder:text-gray-400
+                focus:outline-none focus:ring-2 focus:ring-roxo
+                shadow-sm
+                appearance-none 
+                cursor-pointer
+                capitalize  /* <-- Faz o texto selecionado ficar Capitalizado visualmente */
+              "
+              defaultValue="" 
+            >
+              <option value="" disabled>Selecione uma categoria</option>
+              
+
+              {categoriesData.map((category) => (
+                <option key={category.id} value={category.name} className="capitalize">
+                  {category.name}
+                </option>
+              ))}
+              
+            </select>
+            
+
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+              <Icon icon="ph:caret-down" width="24" />
+            </div>
           </div>
 
 
@@ -124,7 +157,7 @@ const ModalEditarLoja: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <button className="
               w-full md:w-auto 
               h-14 px-16 rounded-full 
-              bg-roxo hover:bg-[#4c2f85] 
+              bg-[#5E3C9E] hover:bg-[#4c2f85] 
               text-white text-xl font-medium
               transition-colors shadow-md
               flex items-center justify-center
