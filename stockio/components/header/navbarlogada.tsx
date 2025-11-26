@@ -8,7 +8,7 @@ const NavbarLogada = () => {
         
         <nav className="w-screen h-auto md:h-[92px] bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-0">
             <div className="flex items-center">
-                <Link href="/">    
+                <Link href="/homeLogada">    
                     <Image
                         src="/images/logo.svg"
                         alt="Logo Stockio"
@@ -37,7 +37,7 @@ const NavbarLogada = () => {
                         <Icon icon="ion:person" width="24" height="24" className="text-white" />
                     </Link>
                     <Link 
-                        href="#"
+                        href="/lojas"
                         aria-label="Lojas"
                         className="p-2 rounded-full hover:bg-gray-800 transition-colors">
                     
