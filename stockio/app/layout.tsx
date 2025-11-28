@@ -21,14 +21,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Toast global funcionando */}
         <ToastContainer
-          position="top-right"
+          position="top-left"       // já alinha à esquerda
           autoClose={2500}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
           pauseOnHover
           draggable
-          theme="light"
+          theme="colored"
+          style={{ marginTop: "100px", 
+            marginLeft:"480px",
+          }}
         />
       </body>
     </html>
