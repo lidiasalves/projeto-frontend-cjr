@@ -15,6 +15,7 @@ const NavbarDeslogada = () => {
                         alt="Logo Stockio"
                         width={220}
                         height={42}
+                        className='hover:scale-110'
                         priority
                         />
                 </Link>    
@@ -37,7 +38,7 @@ const NavbarDeslogada = () => {
                     aria-label="Lojas"
                     className="p-2 rounded-full hover:bg-gray-800 transition-colors">
                     
-                    <Icon icon="lsicon:store-filled" width="24" height="24" className="text-white" />
+                    <Icon icon="lsicon:store-filled" width="24" height="24" className="text-white " />
                 </Link>
                     
                 <Link 

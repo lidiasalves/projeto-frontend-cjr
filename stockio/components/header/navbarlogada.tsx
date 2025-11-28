@@ -14,6 +14,7 @@ const NavbarLogada = () => {
                         alt="Logo Stockio"
                         width={220}
                         height={42}
+                        className = "hover:scale-110"
                         priority
                         />
                 </Link>    

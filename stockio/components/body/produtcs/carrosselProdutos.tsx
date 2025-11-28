@@ -28,7 +28,7 @@ const CarrosselProdutos = () => {
                 onMouseLeave={handleMouseLeave}
                 onMouseUp={handleMouseUp}
                 onMouseMove={handleMouseMove}
-                className="flex gap-8 overflow-x-auto cursor-grab select-none scroll-smooth sem-barra">
+                className="flex gap-8 overflow-x-auto overflow-y-hidden cursor-grab select-none scroll-smooth sem-barra">
                 {produtosMock.map((produto) => (
                     <CardProduto
                         key={produto.id}
