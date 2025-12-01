@@ -2,16 +2,15 @@
 import { useRef, useState } from "react";
 import CardProduto from "./cardProduto";
 import { produtosMock } from "@/mock/produtosMock";
-import { useDragScroll } from "@/components/hooks/useDragScroll";
-
+import { useDragScroll } from "../../hooks/useDragScroll";
 const CarrosselProdutos = () => { 
- 
+
     const {
-     carrosselRef,
-     handleMouseDown,
-     handleMouseLeave,
-     handleMouseUp,
-     handleMouseMove,
+    carrosselRef,
+    handleMouseDown,
+    handleMouseLeave,
+    handleMouseUp,
+    handleMouseMove,
         } = useDragScroll();
 
     return (
