@@ -1,64 +1,84 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
+  const router = useRouter();
+
+  async function handleLogin(e: any) {
+    e.preventDefault();
+    setErro("");
+
+    try {
+      const res = await axios.post("http://localhost:3001/auth/login", {
+        email,
+        senha,
+      });
+
+      // PADRONIZADO: front e perfil usarão userId
+      localStorage.setItem("userId", res.data.id);
+      localStorage.setItem("userToken", res.data.token);
+
+      router.push("/perfil");
+    } catch (error) {
+      setErro("Email ou senha incorretos");
+    }
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#F7F4EC]">
       <div className="flex items-center justify-center gap-10">
-        {/* Lado esquerdo com logo e personagem */}
+        
+        {/* Parte esquerda */}
         <div className="flex flex-col items-center">
-          <img
-            src="/logo.png"
-            alt="Logo da empresa"
-            className="w-90 h-auto mb-15 transition-transform duration-300 hover:scale-110"
-          />
-
-          <img
-            src="/personagem.png"
-            alt="Personagem"
-            className="w-75 h-auto transform scale-125"
-          />
+          <img src="/logo.png" alt="Logo" className="w-90 h-auto mb-15" />
+          <img src="/personagem.png" alt="Personagem" className="w-75 h-auto" />
         </div>
 
-        {/* Lado direito com o formulário */}
-        <div className="w-[380px] bg-black rounded-2xl text-white flex flex-col justify-center mt-40 p-10">
+        {/* Formulário */}
+        <div className="w-[380px] bg-black rounded-2xl text-white p-10 mt-40">
           <h2 className="text-2xl text-center font-bold mb-6">
             BEM VINDO DE VOLTA!
           </h2>
 
-          <form className="flex flex-col space-y-4">
-            {/* Campo Email */}
+          <form className="flex flex-col space-y-4" onSubmit={handleLogin}>
             <input
               type="email"
               placeholder="Email"
-              className="w-full px-4 py-3 rounded-2xl bg-white text-black placeholder-[#858585] focus:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-200"
+              className="w-full px-4 py-3 rounded-2xl bg-white text-black"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
-            {/* Campo Senha com ícone */}
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Senha"
-                className="w-full px-4 py-3 pr-10 rounded-2xl bg-white text-black placeholder-[#858585] focus:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-200"
+                className="w-full px-4 py-3 pr-10 rounded-2xl bg-white text-black"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-3 flex items-center text-[#858585] hover:text-purple-400"
+                className="absolute inset-y-0 right-3 flex items-center text-[#858585]"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
 
-            <a
-              href="#"
-              className="text-sm text-gray-300 underline hover:text-purple-400 text-center"
-            >
-              Esqueceu sua senha?
-            </a>
+            {erro && (
+              <p className="text-red-400 text-center text-sm">{erro}</p>
+            )}
 
             <button
               type="submit"
@@ -70,7 +90,7 @@ export default function LoginPage() {
 
           <p className="text-sm text-gray-300 mt-6 text-center">
             Não possui uma conta?{" "}
-            <a href="#" className="text-purple-400 hover:underline">
+            <a href="/cadastro" className="text-purple-400 hover:underline">
               Cadastre-se
             </a>
           </p>

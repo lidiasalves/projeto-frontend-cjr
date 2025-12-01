@@ -8,7 +8,7 @@ const NavbarLogada = () => {
         
         <nav className="w-screen h-auto md:h-[92px] bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-0">
             <div className="flex items-center">
-                <Link href="/">    
+                <Link href="/homeLogada">    
                     <Image
                         src="/images/logo.svg"
                         alt="Logo Stockio"
@@ -22,16 +22,17 @@ const NavbarLogada = () => {
             <div className = "flex flex-row-reverse gap-5">
                     
 
-                    <button 
+                    <Link 
+                        href="/homeDeslogada"
                         type="button" 
                         aria-label="Sair da conta"
                         className="p-2 rounded-full hover:bg-gray-800 transition-colors">
                         
                         <Icon icon="fluent:arrow-exit-28-filled" width="24" height="24" className="text-white" />
-                    </button>
+                    </Link>
                     
                     <Link 
-                        href="#"
+                        href="/perfil"
                         aria-label="Meu Perfil"
                         className="p-2 rounded-full hover:bg-gray-800 transition-colors">
                         <Icon icon="ion:person" width="24" height="24" className="text-white" />

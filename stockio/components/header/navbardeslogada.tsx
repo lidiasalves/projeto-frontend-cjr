@@ -9,7 +9,7 @@ const NavbarDeslogada = () => {
         
         <nav className="w-screen h-auto md:h-[92px] bg-black text-white py-4 px-4 md:px-8 flex flex-wrap justify-center md:justify-between items-center gap-4 md:gap-0">
             <div className="flex items-center">
-                <Link href="/">    
+                <Link href="/homeDeslogada">    
                     <Image
                         src="/images/logo.svg"
                         alt="Logo Stockio"
@@ -29,7 +29,7 @@ const NavbarDeslogada = () => {
                     Cadastre-se
                 </Link>
 
-                <Link href = "#" aria-label='Entrar na sua conta' className = "font-semi-bold rounded-full py-2 px-4 text-white hover:bg-[#C1A8E9] hover:text-black transition-colors">
+                <Link href = "/login" aria-label='Entrar na sua conta' className = "font-semi-bold rounded-full py-2 px-4 text-white hover:bg-[#C1A8E9] hover:text-black transition-colors">
                     Entrar
                 </Link>
 

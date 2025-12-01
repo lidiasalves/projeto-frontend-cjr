@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 /* eslint-disable @next/next/no-img-element */
@@ -7,9 +9,10 @@ import { useEffect, useState } from "react";
 interface EditProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
+  user: any;
 }
 
-export default function EditProfileModal({ isOpen, onClose }: EditProfileModalProps) {
+export default function EditProfileModal({ isOpen, onClose, user }: EditProfileModalProps) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
