@@ -7,6 +7,7 @@ import FiltroCategorias from "@/components/filtros/filtroCategoria";
 import CardLojas from "@/components/body/store/cardLojas";
 import { lojasMock } from "@/mock/lojasMock";
 import { categoriesData } from "@/mock/categoriasMock";
+import HeaderCategorias from "@/components/header/headerCategoria";
 
 interface LojaDB{
   id: number;
@@ -20,6 +21,7 @@ export default function PaginaLojas() {
   const [categoriasSelecionadas, setCategoriasSelecionadas] = useState<string[]>([]);
   const [lojas, setLojas] = useState<LojaDB[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [erro, setErro] = useState(false);
 
   useEffect(() => { 
     async function buscarLojas() {
@@ -38,14 +40,14 @@ export default function PaginaLojas() {
   }, []);
 
   const lojasFiltradas = 
-    categoriasSelecionadas.length === 0
-      ? lojas
-      : lojas.filter((loja) => {
-          const catLoja = loja.categoria.toLowerCase();
-          const filtros = categoriasSelecionadas.map(c => c.toLowerCase());
-          return filtros.includes(catLoja);
-        });
-
+      categoriasSelecionadas.length === 0
+        ? lojas
+        : lojas.filter((loja) => {
+            const catLoja = loja.categoria?.nome?.toLowerCase() || ""; 
+            
+            const filtros = categoriasSelecionadas.map(c => c.toLowerCase());
+            return filtros.includes(catLoja);
+          });
 
   const handleFilterChange = (categoriaNome: string) => {
     setCategoriasSelecionadas((prev) => {
@@ -58,8 +60,11 @@ export default function PaginaLojas() {
 
 return (
     <div className="min-h-screen bg-[#F6F3E4]">
-      <Navbar />
-
+      <NavbarLogada />
+      <HeaderCategorias 
+        categoriasSelecionadas={categoriasSelecionadas}
+        onToggleCategoria={handleFilterChange}
+      />
       <main className="w-full px-4 sm:px-6 md:px-8 py-8 max-w-[1440px] mx-auto">
         
         <div className="mb-12"><BarraPesquisa /></div>
@@ -75,15 +80,17 @@ return (
             </div>
         </div>
 
-        {/* 5. MOSTRANDO O LOADING OU OS DADOS */}
         {isLoading ? (
             // --- SKELETON LOADING (Opcional, mas profissional) ---
+
             <div className="text-center py-20 text-gray-500 text-xl">
                 Carregando lojas...
                 {/* Ou coloque ícones piscando aqui */}
+
             </div>
         ) : (
             // --- GRADE REAL ---
+
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-6 gap-y-10 pb-20">
                 {lojasFiltradas.length > 0 ? (
                     lojasFiltradas.map((loja) => (
@@ -91,8 +98,6 @@ return (
                             <CardLojas
                                 id={loja.id}
                                 nome={loja.nome}
-                                // Atenção ao nome do campo que vem do banco!
-                                // Pode ser 'sticker_url' ou 'logo_url' dependendo do seu Prisma
                                 stickerLoja={loja.sticker_url} 
                                 categoria={loja.categoria.nome}
                             />

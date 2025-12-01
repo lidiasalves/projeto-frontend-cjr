@@ -1,30 +1,33 @@
-
 "use client";
 import { useState } from "react";
 
+// Mantivemos sua interface
 interface Categoria {
   id: number;
   name: string;
   icon: string;
+  href?: string; // Adicionado opcional para evitar erro de TS se vier do mock
 }
 
+// 1. MUDANÇA NAS PROPS: Para casar com o que a 'PaginaLojas' envia
 interface Props {
-  items?: Categoria[];
-  onFilterChange?: (filtros: string[]) => void;
+  categorias?: Categoria[];              // Antes era 'items'
+  categoriasSelecionadas?: string[];     // Novo: Recebe do pai
+  onChange?: (categoriaNome: string) => void; // Novo: Avisa o pai
   className?: string;
 }
 
-const FiltroCategoria = ({ items = [], onFilterChange = () => {}, className = "" }: Props) => {
+const FiltroCategoria = ({ 
+  categorias = [], 
+  categoriasSelecionadas = [], 
+  onChange = () => {}, 
+  className = "" 
+}: Props) => {
+  
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<string[]>([]);
-
-  const handleToggle = (name: string) => {
-    const updated = selected.includes(name)
-      ? selected.filter((s) => s !== name)
-      : [...selected, name];
-    setSelected(updated);
-    onFilterChange(updated.map((i) => i.toLowerCase()));
-  };
+  
+  // 2. REMOVIDO: const [selected, setSelected] = useState...
+  // O estado agora vive na PaginaLojas (no pai).
 
   return (
     <div className={`relative w-full ${className}`}>
@@ -34,7 +37,10 @@ const FiltroCategoria = ({ items = [], onFilterChange = () => {}, className = ""
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
-        <span className="capitalize">{selected.length ? `${selected.length} selecionado(s)` : "Filtros"}</span>
+        {/* Usamos 'categoriasSelecionadas' que veio do pai */}
+        <span className="capitalize">
+            {categoriasSelecionadas.length ? `${categoriasSelecionadas.length} selecionado(s)` : "Filtros"}
+        </span>
         <span className="ml-2">{isOpen ? "▲" : "▼"}</span>
       </button>
 
@@ -45,14 +51,17 @@ const FiltroCategoria = ({ items = [], onFilterChange = () => {}, className = ""
         >
           <h4 className="text-sm font-semibold text-[#5E3C9E] mb-3">Categorias</h4>
 
-          <div className="flex flex-col gap-3">
-            {items.map((cat) => {
-              const checked = selected.includes(cat.name);
+          <div className="flex flex-col gap-3 max-h-60 overflow-y-auto sem-barra"> {/* Adicionei scroll por segurança */}
+            {categorias.map((cat) => {
+              // 3. LÓGICA ATUALIZADA: Verifica se está no array do pai
+              const checked = categoriasSelecionadas.includes(cat.name);
+              
               return (
                 <label
                   key={cat.id}
                   className="flex items-center gap-3 cursor-pointer select-none"
-                  onClick={() => handleToggle(cat.name)}
+                  // 4. AÇÃO: Chama a função do pai
+                  onClick={() => onChange(cat.name)}
                 >
                   <span
                     className={`w-5 h-5 rounded-full flex items-center justify-center border-2 transition
