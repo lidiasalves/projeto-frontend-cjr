@@ -13,12 +13,14 @@ interface EditProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
   user: any;
+  onChangePassword: () => void;
 }
 
 export default function EditProfileModal({
   isOpen,
   onClose,
   user,
+  onChangePassword,
 }: EditProfileModalProps) {
   const [show, setShow] = useState(false);
   const [nome, setNome] = useState("");
@@ -213,6 +215,17 @@ export default function EditProfileModal({
             className="w-full p-3 rounded-xl bg-red-500 text-white hover:bg-red-600"
           >
             Deletar conta
+          </button>
+
+          {/* BOTÃO ALTERAR SENHA */}
+          <button
+            onClick={() => {
+              onClose();
+              onChangePassword(); 
+            }}
+            className="w-full p-3 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300"
+          >
+            Alterar senha
           </button>
 
           <button

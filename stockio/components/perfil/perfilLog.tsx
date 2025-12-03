@@ -6,10 +6,14 @@ import { ArrowLeft, Mail, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import EditProfileModal from "@/components/perfil/modalPerfil";
+import ChangePasswordModal from "@/components/perfil/modalSenha";
 
 export default function Profile() {
   const [user, setUser] = useState<any>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -42,7 +46,6 @@ export default function Profile() {
     <div className="w-full min-h-screen bg-[#F6F3E4]">
 
       <div className="w-full h-[357px] bg-black relative">
-
         <button
           onClick={() => router.back()}
           className="absolute left-[115px] top-[250px] cursor-pointer"
@@ -58,14 +61,14 @@ export default function Profile() {
       </div>
 
       <h1
-        className="text-[52.56px] font-medium text-black absolute left-[180px] top-[512px] leading-none max-w-[600px]"
+        className="text-[52.56px] font-medium text-black absolute left-[180px] top-[512px] leading-none"
         style={{ fontFamily: "League Spartan" }}
       >
         {user.nome}
       </h1>
 
       <p
-        className="text-[29.15px] font-light text-black absolute left-[180px] top-[570px] leading-none max-w-[500px]"
+        className="text-[29.15px] font-light text-black absolute left-[180px] top-[570px]"
         style={{ fontFamily: "League Spartan" }}
       >
         @{user.username}
@@ -73,26 +76,37 @@ export default function Profile() {
 
       <div className="absolute left-[180px] top-[607px] flex items-center gap-2">
         <Mail size={24} className="text-black" />
-        <p
-          className="text-[29.15px] font-light text-black"
-          style={{ fontFamily: "League Spartan" }}
-        >
+        <p className="text-[29.15px] font-light text-black">
           {user.email}
         </p>
       </div>
 
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setEditOpen(true)}
         className="absolute left-[1300px] top-[469px] w-[324px] h-[43.32px] bg-[#6a38f3] text-white rounded-full text-lg cursor-pointer hover:opacity-90 transition"
       >
         Editar Perfil
       </button>
 
       <EditProfileModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={editOpen}
+        onClose={() => setEditOpen(false)}
         user={user}
-        onUpdate={(updatedUser: any) => setUser(updatedUser)}
+        onUpdate={(updatedUser) => setUser(updatedUser)}
+        onChangePassword={() => {
+          setEditOpen(false);
+          setChangePasswordOpen(true);
+        }}
+      />
+
+      <ChangePasswordModal
+        isOpen={changePasswordOpen}
+        onClose={() => setChangePasswordOpen(false)}
+        userId={user.id}
+        onBack={() => {
+          setChangePasswordOpen(false);
+          setEditOpen(true);
+        }}
       />
 
       <div className="mt-[280px] ml-[115px] pb-20">
