@@ -178,7 +178,7 @@ export default function Cadastro() {
 
         {/* Imagens */}
         <div className="flex flex-col items-center gap-4">
-          <Link href="/">
+          <Link href="/homeDeslogada">
             <Image
               src="/images/logoCAD.png"
               alt="Logo"

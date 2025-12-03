@@ -22,16 +22,17 @@ const NavbarLogada = () => {
             <div className = "flex flex-row-reverse gap-5">
                     
 
-                    <button 
+                    <Link 
+                        href="/homeDeslogada"
                         type="button" 
                         aria-label="Sair da conta"
                         className="p-2 rounded-full hover:bg-gray-800 transition-colors">
                         
                         <Icon icon="fluent:arrow-exit-28-filled" width="24" height="24" className="text-white" />
-                    </button>
+                    </Link>
                     
                     <Link 
-                        href="#"
+                        href="/perfil"
                         aria-label="Meu Perfil"
                         className="p-2 rounded-full hover:bg-gray-800 transition-colors">
                         <Icon icon="ion:person" width="24" height="24" className="text-white" />

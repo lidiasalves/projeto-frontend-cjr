@@ -29,7 +29,7 @@ const NavbarDeslogada = () => {
                     Cadastre-se
                 </Link>
 
-                <Link href = "#" aria-label='Entrar na sua conta' className = "font-semi-bold rounded-full py-2 px-4 text-white hover:bg-[#C1A8E9] hover:text-black transition-colors">
+                <Link href = "/login" aria-label='Entrar na sua conta' className = "font-semi-bold rounded-full py-2 px-4 text-white hover:bg-[#C1A8E9] hover:text-black transition-colors">
                     Entrar
                 </Link>
 
