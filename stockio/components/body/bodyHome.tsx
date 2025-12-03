@@ -1,7 +1,7 @@
 import BarraPesquisa from "./barraPesquisa";
 import Categoria from "./carrosselCategorias";
 import CarrosselLojas from "./store/carrosselLojas";
-import CarrosselProdutos from "./produtcs/carrosselProdutos";
+import CarrosselProdutos from "./store/produtcs/carrosselProdutos";
 
 const BodyHome = () => {
 

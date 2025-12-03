@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import NavbarDeslogada from "../home/components/header/navbardeslogada";
+import NavbarDeslogada from "../../components/header/navbardeslogada";
 import HeroLoja from "./components/HeroLoja";
 import ReviewsList from "./components/ReviewsList";
 import ReviewsSummary from "./components/ReviewsSummary";
