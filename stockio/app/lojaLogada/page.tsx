@@ -4,6 +4,9 @@ import NavbarLogada from "@/components/header/navbarlogada";
 import ModalEditarLoja from "@/components/modal/modalEditarLoja";
 import ModalAddProduto from "@/components/modal/modalAdicionar";
 import ModalFazerAvaliacao from "@/components/modal/modalFazerAvaliacao";
+import CarrosselProdutos from "@/components/body/produtcs/carrosselProdutos";
+import CarrosselAvaliacoes from "@/components/body/avaliacao/carrosselAvaliacao";
+import CardProduto from "@/components/body/produtcs/cardProduto";
 import Comentario from "@/components/body/avaliacao/cardAvaliacao";
 import Link from "next/link";
 import { useState } from "react";
@@ -54,10 +57,8 @@ export default function LojaLogada() {
       </section>
 
       {/* reviews */}
-      <section className="bg-black py-14 text-center"> 
-        <Link href="/avaliacao" className="text-[#5E3C9E] hover:underline">
-          Reviews e Comentários
-        </Link>
+      <section className="text-2xl bg-black py-7 text-center"> 
+          <h1>Reviews e Comentários</h1>
 
         <p className="text-4xl font-bold mb-3">4.75</p> 
         <div className="text-yellow-400 text-3xl mb-6">★★★★★</div>
@@ -80,28 +81,39 @@ export default function LojaLogada() {
       />
 
       {/* comentarios/avaliacoes */}
-      <div className="w-full bg-black py-16 flex flex-col items-center gap-12">
+      <div className="w-full bg-black py-16 flex flex-col items-center gap-2">
 
       {/* botao adicionar comentario */}
-      <div className="w-full flex justify-start max-w-3xl mx-auto mb-1 px-1">
+      <div className="w-full flex justify-center mt-4 mx-auto px-1">
           <button
             onClick={() => setAbrirModalComent(true)}
-            className="flex items-center gap-2 bg-[#5E3C9E] hover:bg-[#4d2f86] text-white font-semibold px-5 py-2 rounded-full shadow-md transition-all"
+            className="flex items-center gap-7 bg-[#5E3C9E] hover:bg-[#4d2f86] text-white font-semibold px-50 py-2 rounded-full shadow-md transition-all"
           >
             <span className="text-xl font-bold">+</span>
-            Adicionar Comentário
+            Adicionar Review
           </button>
         </div>
 
-        {/* container 1 */}
-        <div className="w-full max-w-3xl bg-white rounded-xl p-10 text-black">
-          <Comentario usuario="Sofia Figueiredo" comentario="Produto excelente, entrega rápida e qualidade impecável!" nota={5}/>
-        </div>
+       <CarrosselAvaliacoes
+        avaliacoes={[
+          {
+            usuario: "Sofia Figueiredo",
+            comentario: "Produto excelente, entrega rápida e qualidade impecável!",
+            nota: 5,
+          },
+          {
+            usuario: "Ana Ribeiro",
+            comentario: "Amei! Vou comprar mais vezes com certeza.",
+            nota: 5,
+          },
+          {
+            usuario: "Lucas Mendes",
+            comentario: "Muito bom, mas o envio demorou um pouco.",
+            nota: 4,
+          },
+        ]}
+      />
 
-        {/* container 2 */}
-        <div className="w-full max-w-3xl bg-white rounded-xl p-10 text-black">
-          <Comentario usuario="Ana Ribeiro" comentario="Amei! Vou comprar mais vezes com certeza." nota={5}/>
-        </div>
 
       </div>
 
@@ -110,8 +122,24 @@ export default function LojaLogada() {
         onClose={() => setAbrirModalComent(false)}
       />
      
+     {/* carrosel de produtos */}
+      <section className="max-[1200px] mx-auto bg-white w-full py-10">
+          <div className = "flex items-center justify-between px-4 mt-6">
+            <h2 className="text-3xl font-semibold md:text-5xl  text-black mb-4">
+                Produtos
+                <span className = "ml-2 text-sm font-normal text-[#5E3C9E]">Rare Beauty</span>  
+            </h2> 
+          </div> 
 
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10 justify-items-center">
+          <CardProduto id={0} nome={"Perfume Rare"} preco={599.90} imagem={"/images/produtorare1.svg"} estoque={10} />
+          <CardProduto id={0} nome={"Iluminador"} preco={249.90} imagem={"/images/produtorare2.svg"} estoque={10} />
+          <CardProduto id={0} nome={"Mini Blush"} preco={99.90} imagem={"/images/produtorare3.svg"} estoque={0} />
+          <CardProduto id={0} nome={"Lapis Labial"} preco={139.90} imagem={"/images/produtorare4.svg"} estoque={10} />
+        </div>
+      </section>
 
     </div>
+    
   );
 }

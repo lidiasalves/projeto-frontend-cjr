@@ -16,7 +16,7 @@ export default function Comentario({ usuario, comentario, nota, foto }: Comentar
       <img
         src={foto || "/images/default-user.png"}
         alt={usuario}
-        className="w-12 h-12 rounded-full object-cover border border-neutral-500"
+        className="w-24 h-24 rounded-full object-cover border border-neutral-500"
       />
 
       <div className="flex flex-col flex-1">
@@ -42,3 +42,4 @@ export default function Comentario({ usuario, comentario, nota, foto }: Comentar
     </div>
   );
 }
+
