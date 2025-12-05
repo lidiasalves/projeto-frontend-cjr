@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { X, Plus, Minus, ChevronDown } from "lucide-react";
+import { X, Plus, Minus, ChevronDown, Trash, Upload } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -16,35 +16,46 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
   const [preco, setPreco] = useState("");
   const [categoriaId, setCategoriaId] = useState("");
 
-  // 4 slots fixos
-  const [fotos, setFotos] = useState<(File | null)[]>([null, null, null, null]);
-  const [previews, setPreviews] = useState<(string | null)[]>([null, null, null, null]);
+  // Lista dinâmica igual ao editar
+  const [fotos, setFotos] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
 
   if (!isOpen) return null;
 
-  function handleFotoChange(e: any, index: number) {
+  //Adicionar nova foto (máx 4)
+  function adicionarFoto(e: any) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (fotos.length >= 4) return toast.warning("Máximo de 4 imagens!");
+
+    setFotos((prev) => [...prev, file]);
+    setPreviews((prev) => [...prev, URL.createObjectURL(file)]);
+  }
+
+  //Alterar alguma imagem existente
+  function alterarImagem(e: any, index: number) {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const novaLista = [...fotos];
-    const novosPreviews = [...previews];
-
     novaLista[index] = file;
-    novosPreviews[index] = URL.createObjectURL(file);
-
     setFotos(novaLista);
-    setPreviews(novosPreviews);
+
+    const novosPrev = [...previews];
+    novosPrev[index] = URL.createObjectURL(file);
+    setPreviews(novosPrev);
   }
 
-  function removerFoto(index: number) {
+  //Remover imagem
+  function removerImagem(index: number) {
     const novaLista = [...fotos];
-    const novosPreviews = [...previews];
-
-    novaLista[index] = null;
-    novosPreviews[index] = null;
-
+    novaLista.splice(index, 1);
     setFotos(novaLista);
-    setPreviews(novosPreviews);
+
+    const novosPrev = [...previews];
+    novosPrev.splice(index, 1);
+    setPreviews(novosPrev);
   }
 
   function limparFormulario() {
@@ -53,27 +64,25 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
     setPreco("");
     setCategoriaId("");
     setQuantidade(1);
-    setFotos([null, null, null, null]);
-    setPreviews([null, null, null, null]);
+    setFotos([]);
+    setPreviews([]);
   }
 
   async function handleSubmit() {
-    const fotosValidas = fotos.filter((f) => f !== null);
-
-    if (!nome || !preco || !categoriaId || fotosValidas.length === 0) {
+    if (!nome || !preco || !categoriaId || fotos.length === 0) {
       toast.error("Preencha todos os campos obrigatórios.");
       return;
     }
 
     const formData = new FormData();
     formData.append("nome", nome);
-    formData.append("descricao", descricao || "");
+    formData.append("descricao", descricao);
     formData.append("preco", preco);
     formData.append("estoque", String(quantidade));
     formData.append("LojaId", String(lojaId));
     formData.append("CategoriaId", String(categoriaId));
 
-    fotosValidas.forEach((f) => formData.append("fotos", f!));
+    fotos.forEach((f) => formData.append("fotos", f));
 
     const res = await fetch(`${API_BASE}/produto`, {
       method: "POST",
@@ -87,7 +96,6 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
       limparFormulario();
       onClose();
     } else {
-      console.error(data);
       toast.error(data.message || "Erro ao criar produto.");
     }
   }
@@ -102,30 +110,44 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
 
         <h1 className="text-center text-[32px] font-semibold mb-8">Adicionar Produto</h1>
 
-        {/* Imagens */}
-        <div className="flex flex-col items-center gap-6 mb-10">
+        {/* ---------------- IMAGENS (idêntico ao EDITAR) ---------------- */}
+        <div className="flex flex-col items-center gap-4 mb-8">
 
-          {/* FOTO GRANDE (index 0) */}
-          <SlotFoto
-            width="360px"
-            height="180px"
-            preview={previews[0]}
-            onChange={(e: any) => handleFotoChange(e, 0)}
-            onRemove={() => removerFoto(0)}
-          />
+          {/* Imagem principal */}
+          {previews[0] && (
+            <ImagemEditorNovo
+              imagem={previews[0]}
+              onChange={(e: any) => alterarImagem(e, 0)}
+              onRemove={() => removerImagem(0)}
+              width="360px"
+              height="180px"
+            />
+          )}
 
-          {/* OUTRAS 3 FOTOS (1, 2, 3) */}
+          {/* Imagens menores + botão adicionar */}
           <div className="flex gap-6">
-            {[1, 2, 3].map((i) => (
-              <SlotFoto
-                key={i}
+            {previews.slice(1).map((prev, i) => (
+              <ImagemEditorNovo
+                key={i + 1}
+                imagem={prev}
+                onChange={(e: any) => alterarImagem(e, i + 1)}
+                onRemove={() => removerImagem(i + 1)}
                 width="110px"
                 height="110px"
-                preview={previews[i]}
-                onChange={(e: any) => handleFotoChange(e, i)}
-                onRemove={() => removerFoto(i)}
               />
             ))}
+
+            {/* Botão ADICIONAR */}
+            {previews.length < 4 && (
+              <label
+                className="border-2 border-dashed border-purple-400 rounded-xl w-[110px] h-[110px] flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 transition"
+              >
+                <Plus className="text-purple-600" />
+                <span className="text-purple-600 text-xs mt-1">Adicionar</span>
+                <input type="file" className="hidden" onChange={adicionarFoto} />
+              </label>
+            )}
+
           </div>
         </div>
 
@@ -192,36 +214,35 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
         >
           Adicionar
         </button>
+
       </div>
     </div>
   );
 }
 
-function SlotFoto({ width, height, preview, onChange, onRemove }: any) {
+/* ---------------- COMPONENTE DE IMAGEM (idêntico ao EDITAR) ---------------- */
+
+function ImagemEditorNovo({ imagem, onRemove, onChange, width, height }: any) {
   return (
     <div
       style={{ width, height }}
-      className="relative border-2 border-dashed border-purple-400 rounded-xl flex items-center justify-center bg-white"
+      className="border border-purple-400 rounded-xl relative overflow-hidden"
     >
-      {preview ? (
-        <>
-          <img src={preview} className="w-full h-full object-cover rounded-xl" />
+      <img src={imagem} className="w-full h-full object-cover" />
 
-          {/* botão X */}
-          <button
-            onClick={onRemove}
-            className="absolute top-1 right-1 bg-black/60 text-white rounded-full p-1"
-          >
-            <X size={16} />
-          </button>
-        </>
-      ) : (
-        <label className="flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 transition w-full h-full">
-          <input type="file" accept="image/*" className="hidden" onChange={onChange} />
-          <Plus size={24} className="text-purple-500 mb-1" />
-          <span className="text-purple-500 text-xs">Adicionar foto</span>
-        </label>
-      )}
+      <button
+        onClick={onRemove}
+        className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full"
+      >
+        <Trash size={18} />
+      </button>
+
+      <label
+        className="absolute bottom-2 right-2 bg-purple-600 text-white p-1 rounded-full cursor-pointer"
+      >
+        <Upload size={18} />
+        <input type="file" className="hidden" onChange={onChange} />
+      </label>
     </div>
   );
 }
