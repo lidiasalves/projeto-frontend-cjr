@@ -10,7 +10,6 @@ interface Avaliacao {
 }
 
 const CarrosselAvaliacoes = ({ avaliacoes }: { avaliacoes: Avaliacao[] }) => {
-
   const {
     carrosselRef,
     handleMouseDown,
@@ -29,15 +28,18 @@ const CarrosselAvaliacoes = ({ avaliacoes }: { avaliacoes: Avaliacao[] }) => {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
         className="
-          flex gap-8 mt-7 w-full max-w-7xl
-          overflow-x-auto overflow-y-hidden
+          flex gap-80 mt-7 w-full max-w-7xl
+          overflow-x-auto overflow-y-hidden 
           cursor-grab select-none scroll-smooth sem-barra
         "
       >
         {avaliacoes.map((item, index) => (
           <div
             key={index}
-            className="min-w-[90%] md:min-w-[60%] lg:min-w-[45%] bg-white rounded-xl p-8 shadow-xl text-black"
+            className="
+              shrink-0
+              w-[380px] md:w-[420px] lg:w-[460px] mx-2
+            "
           >
             <Comentario
               usuario={item.usuario}

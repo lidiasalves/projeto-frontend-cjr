@@ -29,7 +29,7 @@ export default function LojaLogada() {
           alt="Banner"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/90 to-black/20" />
 
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="flex flex-col text-left">
@@ -63,7 +63,7 @@ export default function LojaLogada() {
         <p className="text-4xl font-bold mb-3">4.75</p> 
         <div className="text-yellow-400 text-3xl mb-6">★★★★★</div>
 
-        <a href="#" className="text-sm text-purple-300 hover:text-purple-200 underline">
+        <a href="/lojaLogada/avaliacoes" className="text-sm text-purple-300 hover:text-purple-200 underline">
           ver mais
         </a>
       </section>
