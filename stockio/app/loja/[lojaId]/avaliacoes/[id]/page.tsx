@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
 import axios from "axios";
 import { ArrowLeft, Send, Pencil } from "lucide-react";
 import NavbarLogada from "@/components/header/navbar";
@@ -122,7 +121,7 @@ export default function ReviewPage() {
 
             {/* Avatar Reviewer */}
             <div className="relative">
-                <Image
+                <img
                 src={review.usuario?.foto_perfil_url || "/images/default-user.png"}
                 width={90}
                 height={90}
@@ -176,7 +175,7 @@ export default function ReviewPage() {
               >
                 {/* Avatar Resposta */}
                 <div className="relative z-10 shrink-0">
-                    <Image
+                    <img
                     src={resposta.usuario?.foto_perfil_url || "/images/default-user.png"}
                     width={55}
                     height={55}

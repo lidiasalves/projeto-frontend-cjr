@@ -1,18 +1,26 @@
+// next.config.js
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3001', // A porta do seu Back-end NestJS
-        pathname: '/uploads/**', // Permite qualquer caminho dentro de /uploads
-      },
-      // Se tiver outras imagens externas (como de um CDN), adicione aqui
-    ],
-  },
+  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3001', 
+        pathname: '/uploads/**', 
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1', 
+        port: '3001',
+        pathname: '/uploads/**',
+      },
+    ],
+    // 💡 REMOVA QUALQUER PROPRIEDADE 'unstable...' QUE O TYPESCRIPT ESTEJA RECLAMANDO
+    dangerouslyAllowSVG: true,
+  },
 };
 
 export default nextConfig;
