@@ -1,6 +1,6 @@
 "use client";
 
-import NavbarLogada from "@/components/header/navbarlogada";
+import NavbarLogada from "@/components/header/navbar";
 import { ArrowLeft, Send } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -117,7 +117,7 @@ export default function ReviewPage() {
               className="flex gap-6 lg:gap-10 mb-16 relative items-start"
             >
               {/* Avatar Wrapper */}
-              <div className="relative z-10 flex-shrink-0">
+              <div className="relative z-10 shrink-0">
                 <Image
                   src={resposta.usuario.foto}
                   width={55}

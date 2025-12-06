@@ -1,6 +1,6 @@
 "use client";
 
-import NavbarLogada from "@/components/header/navbarlogada";
+import NavbarLogada from "@/components/header/navbar";
 import ModalFazerAvaliacao from "@/components/modal/modalFazerAvaliacao";
 import Comentario from "@/components/body/avaliacao/cardAvaliacao";
 import { useState } from "react";

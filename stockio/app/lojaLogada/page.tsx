@@ -1,6 +1,6 @@
 "use client";
 
-import NavbarLogada from "@/components/header/navbarlogada";
+import NavbarLogada from "@/components/header/navbar";
 import ModalEditarLoja from "@/components/modal/modalEditarLoja";
 import ModalAddProduto from "@/components/modal/modalAdicionar";
 import ModalFazerAvaliacao from "@/components/modal/modalFazerAvaliacao";
@@ -71,8 +71,9 @@ export default function LojaLogada() {
       {/* modal editar loja */}
       <ModalEditarLoja 
         isOpen={abrirModal}
-        onClose={() => setAbrirModal(false)}
-      />
+        onClose={() => setAbrirModal(false)} loja={undefined} onSucesso={function (): void {
+          throw new Error("Function not implemented.");
+        } }      />
 
       {/* modal adicionar */}
       <ModalAddProduto

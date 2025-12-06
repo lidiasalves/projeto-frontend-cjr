@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import {api} from "@/services/api";
-import NavbarLogada from "@/components/header/navbarlogada";
+import NavbarLogada from "@/components/header/navbar";
 import BarraPesquisa from "@/components/body/barraPesquisa";
 import FiltroCategorias from "@/components/filtros/filtroCategoria";
 import CardLojas from "@/components/body/store/cardLojas";
