@@ -23,7 +23,7 @@ const NavbarLogada = () => {
                     
 
                     <Link 
-                        href="/homeDeslogada"
+                        href="/"
                         type="button" 
                         aria-label="Sair da conta"
                         className="p-2 rounded-full hover:bg-gray-800 transition-colors">
