@@ -2,14 +2,15 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { ArrowLeft, Mail, Plus, Store, ShoppingBag, Star, MapPin } from "lucide-react";
+import { ArrowLeft, Mail, Plus, Store, ShoppingBag } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
-// Imports dos Modais
+// Imports dos Modais e Componentes
 import EditProfileModal from "@/components/perfil/modalPerfil";
 import ChangePasswordModal from "@/components/perfil/modalSenha";
 import ModalAdicionarLoja from "@/components/modal/modalAdicionarLoja";
+import Comentario from "@/components/body/avaliacao/cardAvaliacao"; // Importando o Card
 
 export default function Profile() {
   const [user, setUser] = useState<any>(null);
@@ -50,15 +51,15 @@ export default function Profile() {
 
   // --- LÓGICA DE INTEGRAÇÃO ---
   
-  // 1. Extrair todos os produtos de todas as lojas do usuário
+  // 1. Produtos
   const todosProdutos = user.lojas?.flatMap((loja: any) => 
     loja.produtos?.map((prod: any) => ({ ...prod, nomeLoja: loja.nome })) || []
   ) || [];
 
-  // 2. Extrair avaliações
-  const minhasAvaliacoes = user.avaliacoesFeitas || [];
+  // 2. Avaliações (Usando o nome correto do Prisma: avaliacoes_loja)
+  const minhasAvaliacoes = user.avaliacoes_loja || [];
 
-  // 3. Função para ir para a tela de loja estática/dinâmica
+  // 3. Navegação
   const irParaLoja = (lojaId: number) => {
     router.push(`/loja/${lojaId}`);
   };
@@ -116,7 +117,7 @@ export default function Profile() {
       {/* --- CONTEÚDO PRINCIPAL --- */}
       <div className="mt-10 md:mt-[280px] px-[5%] md:ml-[115px] pb-20 max-w-[1400px]">
 
-        {/* 1. SEÇÃO PRODUTOS (Carrossel) */}
+        {/* 1. SEÇÃO PRODUTOS */}
         <section className="mb-12">
           <h2 className="text-3xl md:text-4xl font-semibold text-black mb-6 flex items-center gap-2">
             Meus Produtos
@@ -149,7 +150,7 @@ export default function Profile() {
           )}
         </section>
 
-        {/* 2. SEÇÃO LOJAS (Carrossel) */}
+        {/* 2. SEÇÃO LOJAS */}
         <section className="mb-12">
           <div className="flex items-center justify-between w-full pr-[5%] md:pr-[115px] mb-6">
             <h2 className="text-3xl md:text-4xl font-semibold text-black flex items-center gap-2">
@@ -166,39 +167,27 @@ export default function Profile() {
           </div>
 
           {user.lojas && user.lojas.length > 0 ? (
-            <div className="flex gap-6 overflow-x-auto pb-6 snap-x scrollbar-hide">
+            <div className="flex gap-8 overflow-x-auto pb-6 snap-x scrollbar-hide px-2">
               {user.lojas.map((loja: any) => (
                 <div 
                     key={loja.id} 
                     onClick={() => irParaLoja(loja.id)}
-                    className="min-w-[280px] w-[280px] bg-white p-0 rounded-3xl shadow-md border border-gray-100 snap-center cursor-pointer group hover:scale-[1.02] transition-transform overflow-hidden"
+                    className="flex flex-col items-center gap-3 cursor-pointer group snap-center min-w-[100px]"
                 >
-                   {/* Banner da Loja Card */}
-                   <div className="h-24 bg-linear-to-r from-purple-500 to-indigo-600 relative">
-                        {loja.banner_url && <img src={loja.banner_url} className="w-full h-full object-cover opacity-80" />}
-                   </div>
-                   
-                   <div className="p-5 pt-0 relative">
-                        {/* Logo sobreposto */}
-                        <div className="w-16 h-16 bg-white rounded-2xl border-4 border-white shadow-md absolute -top-8 left-4 flex items-center justify-center overflow-hidden">
-                            {loja.logo_url ? (
-                                <img src={loja.logo_url} className="w-full h-full object-cover" />
-                            ) : (
-                                <Store className="text-purple-300 w-8 h-8" />
-                            )}
-                        </div>
-
-                        <div className="mt-10">
-                            <h3 className="font-bold text-xl text-gray-900 group-hover:text-[#5E3C9E] transition-colors">{loja.nome}</h3>
-                            <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
-                                <MapPin size={14} /> 
-                                {loja.endereco || "Online"}
-                            </p>
-                            <div className="mt-4 flex items-center gap-2 text-xs font-medium text-gray-400 bg-gray-50 p-2 rounded-lg">
-                                <ShoppingBag size={14} /> {loja.produtos?.length || 0} produtos
-                            </div>
-                        </div>
-                   </div>
+                    <div className="w-24 h-24 md:w-28 md:h-28 rounded-full border-2 border-gray-200 bg-white p-1 shadow-sm group-hover:shadow-md group-hover:border-[#5E3C9E] group-hover:scale-105 transition-all overflow-hidden flex items-center justify-center">
+                        {loja.logo_url ? (
+                            <img 
+                              src={loja.logo_url} 
+                              alt={loja.nome} 
+                              className="w-full h-full object-cover rounded-full" 
+                            />
+                        ) : (
+                            <Store className="text-gray-300 w-10 h-10" />
+                        )}
+                    </div>
+                    <span className="text-center font-medium text-gray-800 text-lg group-hover:text-[#5E3C9E] transition-colors max-w-[120px] truncate">
+                        {loja.nome}
+                    </span>
                 </div>
               ))}
             </div>
@@ -212,24 +201,28 @@ export default function Profile() {
           )}
         </section>
 
-        {/* 3. SEÇÃO AVALIAÇÕES FEITAS (Carrossel) */}
+        {/* 3. SEÇÃO MINHAS AVALIAÇÕES (INTEGRADO) */}
         <section className="mb-12">
           <h2 className="text-3xl md:text-4xl font-semibold text-black mb-6">Minhas Avaliações</h2>
           
           {minhasAvaliacoes.length > 0 ? (
-            <div className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide">
+            <div className="flex gap-6 overflow-x-auto pb-4 snap-x scrollbar-hide px-2">
                 {minhasAvaliacoes.map((aval: any) => (
-                    <div key={aval.id} className="min-w-[300px] w-[300px] bg-white p-6 rounded-2xl shadow-sm border border-gray-100 snap-center">
-                        <div className="flex justify-between items-start mb-2">
-                            <h4 className="font-bold text-gray-800">{aval.loja?.nome || "Loja Excluída"}</h4>
-                            <span className="text-xs text-gray-400">{new Date(aval.criadoEm).toLocaleDateString()}</span>
-                        </div>
-                        <div className="flex text-amber-400 mb-3">
-                            {[1,2,3,4,5].map(s => (
-                                <Star key={s} size={14} fill={s <= aval.nota ? "currentColor" : "none"} className={s <= aval.nota ? "" : "text-gray-200"} />
-                            ))}
-                        </div>
-                        <p className="text-gray-600 text-sm italic line-clamp-3">"{aval.comentario}"</p>
+                    <div key={aval.id} className="snap-center shrink-0">
+                        <Comentario
+                            // ID da Avaliação e da Loja (necessário para o link funcionar)
+                            id={String(aval.id)}
+                            lojaId={String(aval.loja?.id)}
+
+                            // Contexto: Mostramos o Nome da Loja Avaliada
+                            usuario={aval.loja?.nome || "Loja Excluída"}
+                            
+                            // Contexto: Mostramos a Logo da Loja
+                            foto={aval.loja?.logo_url}
+                            
+                            comentario={aval.comentario}
+                            nota={aval.nota}
+                        />
                     </div>
                 ))}
             </div>

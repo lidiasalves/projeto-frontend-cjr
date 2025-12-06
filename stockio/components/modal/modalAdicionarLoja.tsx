@@ -1,11 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
-import { categoriesData } from "@/mock/categoriasMock"; // Verifique se o caminho está certo
-import axios from "axios"; // Importamos o Axios
-import { toast } from "react-toastify"; // Importamos o Toast
+import { categoriesData } from "@/mock/categoriasMock"; 
+import axios from "axios"; 
+import { toast } from "react-toastify"; 
 
-// Componente visual da área de upload (Mantive igual pois estava ótimo)
 const UploadArea = ({ 
   label, 
   icon, 
@@ -48,10 +47,9 @@ interface ModalProps {
 
 const ModalAdicionarLoja: React.FC<ModalProps> = ({ isOpen, onClose, onSuccess }) => {
   const [nome, setNome] = useState("");
-  const [categoria, setCategoria] = useState("");
+  const [categoria, setCategoria] = useState(""); // Isso vai guardar o ID agora (ex: "1")
   const [loading, setLoading] = useState(false);
 
-  // Estados para os arquivos
   const [files, setFiles] = useState<{
     perfil: File | null;
     logo: File | null;
@@ -60,7 +58,6 @@ const ModalAdicionarLoja: React.FC<ModalProps> = ({ isOpen, onClose, onSuccess }
 
   if (!isOpen) return null;
 
-  // Função para capturar o arquivo quando o usuário seleciona
   const handleFileChange = (key: 'perfil' | 'logo' | 'banner') => (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -69,7 +66,7 @@ const ModalAdicionarLoja: React.FC<ModalProps> = ({ isOpen, onClose, onSuccess }
   };
 
   const handleAdicionar = async () => {
-    // 1. Validação básica
+    // 1. Validação
     if (!nome || !categoria) {
       toast.error("Preencha o nome e a categoria!");
       return;
@@ -77,37 +74,41 @@ const ModalAdicionarLoja: React.FC<ModalProps> = ({ isOpen, onClose, onSuccess }
 
     const userId = localStorage.getItem("userId");
     if (!userId) {
-      toast.error("Erro: Usuário não identificado. Faça login novamente.");
+      toast.error("Erro: Usuário não logado.");
       return;
     }
 
     try {
       setLoading(true);
 
-      // 2. A ESTRATÉGIA DO COLEGA: Usar FormData
+      // 2. CORREÇÃO CRÍTICA: Nomes exatos do Controller
       const fd = new FormData();
       fd.append("nome", nome);
-      fd.append("categoria", categoria);
-      fd.append("usuarioId", userId);
+      
+      // Enviamos 'CategoriaId' (Maiúsculo) com o valor do ID que pegamos no select
+      fd.append("CategoriaId", categoria); 
+      
+      // Enviamos 'UsuarioId' (Maiúsculo)
+      fd.append("UsuarioId", userId);
 
-      // Anexamos os arquivos APENAS se eles existirem
-      // NOTA: Verifique se no seu Backend os nomes esperados são 'foto_perfil', 'logo' e 'banner'
+      // 3. Arquivos com os nomes que configuramos no Multer
       if (files.perfil) fd.append("foto_perfil", files.perfil); 
       if (files.logo) fd.append("logo", files.logo);
       if (files.banner) fd.append("banner", files.banner);
 
-      // 3. Envio usando AXIOS (igual ao modal de perfil)
+      // Debug para você conferir no console
+      console.log("Enviando...", { nome, categoria, userId });
+
       await axios.post("http://localhost:3001/loja", fd);
 
       toast.success("Loja criada com sucesso!");
       
-      // Limpa tudo
       setNome("");
       setCategoria("");
       setFiles({ perfil: null, logo: null, banner: null });
       
-      onSuccess(); // Atualiza a tela de perfil
-      onClose();   // Fecha o modal
+      onSuccess(); 
+      onClose();   
 
     } catch (error: any) {
       console.error(error);
@@ -149,7 +150,6 @@ const ModalAdicionarLoja: React.FC<ModalProps> = ({ isOpen, onClose, onSuccess }
 
         <div className="p-8 pt-2 flex flex-col gap-5">
           
-          {/* Input: Nome */}
           <div className="w-full">
             <input 
               type="text" 
@@ -160,7 +160,7 @@ const ModalAdicionarLoja: React.FC<ModalProps> = ({ isOpen, onClose, onSuccess }
             />
           </div>
 
-          {/* Select: Categoria */}
+          {/* CORREÇÃO DO SELECT: Value agora é o ID, não o nome */}
           <div className="relative w-full">
             <select
               value={categoria}
@@ -169,7 +169,8 @@ const ModalAdicionarLoja: React.FC<ModalProps> = ({ isOpen, onClose, onSuccess }
             >
               <option value="" disabled>Categoria</option>
               {categoriesData.map((cat) => (
-                <option key={cat.id} value={cat.name} className="capitalize">
+                // Mudei value={cat.name} para value={cat.id}
+                <option key={cat.id} value={cat.id} className="capitalize">
                   {cat.name}
                 </option>
               ))}
@@ -179,7 +180,6 @@ const ModalAdicionarLoja: React.FC<ModalProps> = ({ isOpen, onClose, onSuccess }
             </div>
           </div>
 
-          {/* Upload Areas */}
           <div className="space-y-4 border-2 border-dashed border-[#5E3C9E]/30 rounded-3xl p-4 md:p-6 mt-2">
             <UploadArea 
               id="add-perfil" 

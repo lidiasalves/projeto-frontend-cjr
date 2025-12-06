@@ -1,54 +1,41 @@
 "use client";
 
-import { useRouter } from "next/navigation"; // 1. Importação necessária
+import { useRouter } from "next/navigation";
 
 interface ComentarioProps {
-  id: string; // 2. Precisamos do ID para saber para onde linkar
+  id: string;         // ID da Avaliação
+  lojaId: string;     // ID da Loja (NOVO)
   usuario: string;
   comentario: string;
   nota?: number;
   foto?: string;
 }
 
-export default function Comentario({ id, usuario, comentario, nota, foto }: ComentarioProps) {
-  const router = useRouter(); // 3. Inicializa o roteador
+export default function Comentario({ id, lojaId, usuario, comentario, nota, foto }: ComentarioProps) {
+  const router = useRouter();
 
   return (
     <div 
-      // 4. Torna clicável redirecionando para a rota dinâmica
-      onClick={() => router.push(`/review/${id}`)} 
-      className="
-      bg-[#D9D9D9] 
-      p-5 
-      rounded-2xl 
-      text-black 
-      flex 
-      gap-5 
-      w-[750px]        /* largura fixa */
-      h-[150px]        /* ALTURA FIXA */
-      items-center 
-      shadow-sm
-      cursor-pointer   /* 5. Único add visual: cursor de 'clique' */
-      transition-opacity hover:opacity-90 /* Opcional: feedback sutil ao passar mouse */
-    ">
+      // --- CORREÇÃO DA ROTA ---
+      // Redireciona para: /loja/1/avaliacoes/55
+      onClick={(e) => {
+        e.stopPropagation(); // Evita cliques duplos se estiver dentro de outro link
+        router.push(`/loja/${lojaId}/avaliacoes/${id}`);
+      }} 
+      
+      className="bg-[#D9D9D9] p-5 rounded-2xl text-black flex gap-5 w-full md:w-[750px] h-auto md:h-[150px] items-center shadow-sm cursor-pointer transition-opacity hover:opacity-90 shrink-0"
+    >
       {/* Foto do usuário */}
       <img
         src={foto || "/images/default-user.png"}
         alt={usuario}
-        className="
-          w-24 
-          h-24 
-          rounded-full 
-          object-cover 
-          border border-neutral-500
-          shrink-0
-        "
+        className="w-24 h-24 rounded-full object-cover border border-neutral-500 shrink-0 bg-gray-300"
       />
 
       {/* Conteúdo */}
       <div className="flex flex-col flex-1 h-full justify-center">
         
-        {/* Nome + Estrelas */}
+        {/* Cabeçalho: Nome e Estrelas */}
         <div className="flex items-center justify-between w-full">
           <p className="font-semibold text-lg">{usuario}</p>
 
@@ -60,13 +47,8 @@ export default function Comentario({ id, usuario, comentario, nota, foto }: Come
           )}
         </div>
 
-        {/* Comentário */}
-        <p className="
-          text-sm 
-          opacity-80 
-          mt-1 
-          line-clamp-2      /* impede que o texto estoure */
-        ">
+        {/* Texto do Comentário */}
+        <p className="text-sm opacity-80 mt-1 line-clamp-2">
           {comentario}
         </p>
       </div>
