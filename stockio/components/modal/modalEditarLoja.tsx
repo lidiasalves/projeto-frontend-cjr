@@ -13,7 +13,7 @@ const UploadArea = ({ label, icon, id }: { label: string; icon: string; id: stri
       border-2 border-dashed border-gray-300 rounded-2xl 
       bg-gray-50/50 hover:bg-gray-100 
       cursor-pointer transition-colors
-      group border-purple-200
+      group
     "
   >
     <div className="p-3 rounded-full bg-white shadow-sm mb-3 group-hover:scale-110 transition-transform">

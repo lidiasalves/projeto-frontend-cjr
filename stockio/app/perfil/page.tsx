@@ -1,10 +1,10 @@
-import NavbarLogada from '@/components/header/navbarlogada';
+import Navbar from '@/components/header/navbar';
 import Profile from "@/components/perfil/perfilLog";
 
 export default function ProfilePage() {
   return (
     <>
-    <NavbarLogada/>
+    <Navbar/>
     <Profile />
     </>
   );

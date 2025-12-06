@@ -44,7 +44,7 @@ export default function AvaliacoesLoja() {
           alt="Banner"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/90 to-black/20" />
 
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="flex flex-col text-left">
@@ -76,8 +76,7 @@ export default function AvaliacoesLoja() {
             key={index}
             usuario={avaliacao.usuario}
             comentario={avaliacao.comentario}
-            nota={avaliacao.nota}
-          />
+            nota={avaliacao.nota} id={""}          />
         ))}
       </div>
 
