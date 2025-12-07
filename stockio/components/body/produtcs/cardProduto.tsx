@@ -13,6 +13,7 @@ interface Props {
 }
 
 const CardProduto = ({ id, nome, preco, imagem, stickerLoja, estoque }: Props) => {
+    console.log(`Card "${nome}" renderizado com ID:`, id);
     return (
         <Link href={`/produto/${id}`} className="block">
             <article className="shrink-0 relative w-40 md:w-56 bg-white rounded-lg hover:shadow-lg hover:scale-105 overflow-hidden transition-all duration-300 p-3 border border-transparent hover:border-purple-100">
