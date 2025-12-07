@@ -33,7 +33,7 @@ const CardProduto = ({ id, nome, preco, imagem, stickerLoja, estoque }: Props) =
                     <img
                         src={imagem}
                         alt={nome}
-                        fill
+                        
                         className="object-cover hover:opacity-90 transition-opacity"
                         sizes="(max-width: 768px) 160px, 224px"
                     />

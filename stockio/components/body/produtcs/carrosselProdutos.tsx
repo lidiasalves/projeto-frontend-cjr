@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { api } from "@/utils/api";
+import { api } from "@/services/api";
 import CardProduto from "./cardProduto";
 import { useDragScroll } from "@/components/hooks/useDragScroll";
 
@@ -47,7 +47,7 @@ const CarrosselProdutos = ({ titulo = "Produtos", subtitulo = "", categoriaFiltr
         <div className="flex items-center justify-between px-4 mt-6">
             <h2 className="text-3xl font-semibold md:text-5xl text-black mb-4">
                 {titulo}
-                {subtitulo && <span className="ml-2 text-sm font-normal text-[#5E3C9E]">{subtitulo}</span>}
+                <span className = "ml-2 text-sm font-normal text-[#5E3C9E]">em {subtitulo}</span> 
             </h2> 
         </div> 
 

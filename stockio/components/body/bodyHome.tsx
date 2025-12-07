@@ -2,6 +2,7 @@ import BarraPesquisa from "./barraPesquisa";
 import Categoria from "./carrosselCategorias";
 import CarrosselLojas from "./store/carrosselLojas";
 import CarrosselProdutos from "./produtcs/carrosselProdutos";
+import CarrosseisProdutosIntegrado from "./produtcs/carrosselProdutosint";
 
 const BodyHome = () => {
 
@@ -12,9 +13,8 @@ const BodyHome = () => {
             <div className = "mt-12">
                 <Categoria/>
             </div>
-            <CarrosselProdutos/>
-            <CarrosselProdutos />
-            <CarrosselProdutos />
+            <CarrosseisProdutosIntegrado/>
+
             <CarrosselLojas/>
         </main>
         

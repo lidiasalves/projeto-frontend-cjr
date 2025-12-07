@@ -198,6 +198,7 @@ export default function LojaDinamica() {
         <ModalAddProduto
             isOpen={abrirModalAdd}
             onClose={() => setAbrirModalAdd(false)}
+            lojaId={idLoja}
         />
       )}
 
