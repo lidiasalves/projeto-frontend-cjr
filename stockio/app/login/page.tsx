@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,7 +41,7 @@ export default function LoginPage() {
         
         {/* Parte esquerda */}
         <div className="flex flex-col items-center">
-          <img src="/logo.png" alt="Logo" className="w-90 h-auto mb-15" />
+          <Link href="/">;<img src="/logo.png" alt="Logo" className="w-90 h-auto mb-15" /></Link>
           <img src="/personagem.png" alt="Personagem" className="w-75 h-auto" />
         </div>
 

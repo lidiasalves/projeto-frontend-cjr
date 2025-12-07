@@ -59,7 +59,7 @@ export default function ProdutosDoPerfil() {
 
           {/* Lista de Produtos */}
           {loja.produtos.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
               {loja.produtos.map((prod: any) => {
                 const imgSrc =
                   prod.imagens?.find((img: any) => img.url_imagem)

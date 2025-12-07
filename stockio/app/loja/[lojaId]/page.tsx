@@ -94,8 +94,14 @@ export default function LojaDinamica() {
 
         <div className="absolute left-10 bottom-10">
             <p className="text-lg text-white/80 font-light italic">
-                by {loja.usuario?.nome || "Desconhecido"}
-            </p>
+                by{" "}
+                <Link
+                  href={`/perfil/usuario/${loja.UsuarioId}`}
+                  className="underline hover:text-[#c2b6ff] transition-colors"
+                >
+                  {loja.usuario?.nome || "Desconhecido"}
+                </Link>
+              </p>
         </div>
 
         {isOwner && (

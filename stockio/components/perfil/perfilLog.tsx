@@ -7,6 +7,8 @@
 import { ArrowLeft, Mail, Plus, Store, ShoppingBag } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useDragScroll } from "@/components/hooks/useDragScroll";
+
 
 // Imports dos Modais e Componentes
 import EditProfileModal from "@/components/perfil/modalPerfil";
