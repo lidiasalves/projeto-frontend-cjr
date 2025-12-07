@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001";
 
 export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
-  const [quantidade, setQuantidade] = useState(1);
+  const [quantidade, setQuantidade] = useState(0);
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [preco, setPreco] = useState("");
@@ -197,7 +197,7 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
         {/* Quantidade */}
         <div className="flex items-center justify-center gap-8 mt-8">
           <button
-            onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
+            onClick={() => setQuantidade((q) => Math.max(0, q - 1))}
             className="w-12 h-12 rounded-full border border-purple-600 text-purple-600 flex items-center justify-center"
           >
             <Minus size={26} />

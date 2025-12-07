@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Navbar from "@/components/header/navbar";
@@ -159,16 +162,19 @@ export default function LojaDinamica() {
 
         {loja.produtos && loja.produtos.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10 justify-items-center">
-                {loja.produtos.map((prod: any) => (
-                    <CardProduto 
-                        key={prod.id} 
-                        id={prod.id} 
-                        nome={prod.nome} 
-                        preco={Number(prod.preco)} 
-                        imagem={prod.imagens?.[0]?.url_imagem || prod.imagens?.[1]?.url_imagem ||prod.imagens?.[2]?.url_imagem||prod.imagens?.[3]?.url_imagem }
-                        estoque={prod.estoque} 
-                    />
-                ))}
+                {loja.produtos.map((prod: any) => {
+                  const imagem = prod.imagens?.find((img: any) => img?.url_imagem)?.url_imagem;
+                  return (
+                      <CardProduto
+                          key={prod.id}
+                          id={prod.id}
+                          nome={prod.nome}
+                          preco={Number(prod.preco)}
+                          imagem={imagem}
+                          estoque={prod.estoque}
+                      />
+                  );
+              })}
             </div>
         ) : (
             <div className="mt-10 text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300">

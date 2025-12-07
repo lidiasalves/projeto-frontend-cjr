@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 "use client";
@@ -126,22 +128,34 @@ export default function Profile() {
           
           {todosProdutos.length > 0 ? (
             <div className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide">
-              {todosProdutos.map((prod: any) => (
-                <div key={prod.id} className="min-w-[200px] w-[200px] bg-white p-4 rounded-2xl shadow-sm border border-gray-100 snap-center hover:shadow-md transition">
-                    <div className="h-32 bg-gray-100 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden">
-                        {prod.imagemUrl ? (
-                            <img src={prod.imagemUrl} className="w-full h-full object-cover" />
-                        ) : (
-                            <ShoppingBag className="text-gray-300 w-10 h-10" />
-                        )}
-                        <span className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-2 py-0.5 rounded-full">
-                            {prod.nomeLoja}
-                        </span>
-                    </div>
-                    <h3 className="font-bold text-gray-800 truncate">{prod.nome}</h3>
-                    <p className="text-[#5E3C9E] font-bold mt-1">R$ {Number(prod.preco).toFixed(2)}</p>
-                </div>
-              ))}
+              {todosProdutos.map((prod: any) => {
+                const imgSrc =
+                    prod.imagens?.find((img: any) => img?.url_imagem)?.url_imagem || null;
+
+                return (
+                    <div key={prod.id} className="min-w-[200px] w-[200px] bg-white p-4 rounded-2xl shadow-sm border border-gray-100 snap-center hover:shadow-md transition">
+                        <div className="h-32 bg-gray-100 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden">
+                            
+                            {imgSrc ? (
+                                <img
+                                    src={imgSrc}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <ShoppingBag className="text-gray-300 w-10 h-10" />
+                            )}
+
+                <span className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-2 py-0.5 rounded-full">
+                    {prod.nomeLoja}
+                </span>
+            </div>
+
+            <h3 className="font-bold text-gray-800 truncate">{prod.nome}</h3>
+            <p className="text-[#5E3C9E] font-bold mt-1">R$ {Number(prod.preco).toFixed(2)}</p>
+        </div>
+    );
+})}
+
             </div>
           ) : (
             <p className="text-lg text-gray-500">
