@@ -9,7 +9,9 @@ import { toast } from "react-toastify";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001";
 
-export default function ModalAddProduto({ isOpen, onClose, lojaId }: any) {
+
+
+export default function ModalAddProduto({ isOpen, onClose, lojaId}: any) {
   const [quantidade, setQuantidade] = useState(0);
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");

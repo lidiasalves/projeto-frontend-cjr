@@ -12,7 +12,7 @@ import HeaderCategorias from "@/components/header/headerCategoria";
 interface LojaDB{
   id: number;
   nome: string;
-  sticker_url: string;
+  sticker_url: string | null;
   categoria: { nome: string };
 }
 
@@ -27,7 +27,7 @@ export default function PaginaLojas() {
     async function buscarLojas() {
       try {
         setIsLoading(true);
-        const response = await api.get("/lojas");
+        const response = await api.get("/loja");
         setLojas(response.data);
       } catch (error) {
         console.error("Erro ao buscar lojas:", error);
@@ -98,7 +98,7 @@ return (
                             <CardLojas
                                 id={loja.id}
                                 nome={loja.nome}
-                                stickerLoja={loja.sticker_url} 
+                                stickerLoja={loja.sticker_url || "/images/placeholder.png"} 
                                 categoria={loja.categoria.nome}
                             />
                         </div>

@@ -18,8 +18,7 @@ const nextConfig: NextConfig = {
         pathname: '/uploads/**',
       },
     ],
-    // 💡 REMOVA QUALQUER PROPRIEDADE 'unstable...' QUE O TYPESCRIPT ESTEJA RECLAMANDO
-    dangerouslyAllowSVG: true,
+
   },
 };
 

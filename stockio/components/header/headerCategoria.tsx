@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { useDragScroll } from "@/components/hooks/useDragScroll";
 import { categoriesData } from "@/mock/categoriasMock"; 
+
 interface HeaderCategoriasProps {
   categoriasSelecionadas: string[]; 
   onToggleCategoria: (cat: string) => void;
