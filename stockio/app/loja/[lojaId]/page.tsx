@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/header/navbar";
 import ModalEditarLoja from "@/components/modal/modalEditarLoja";
-import ModalAddProduto from "@/components/modal/modalAdicionar";
+import ModalAddProduto from "@/components/modalProduto/modalAdicionar";
 import ModalFazerAvaliacao from "@/components/modal/modalFazerAvaliacao";
 import CarrosselAvaliacoes from "@/components/body/avaliacao/carrosselAvaliacao";
 import CardProduto from "@/components/body/produtcs/cardProduto";
@@ -165,7 +165,7 @@ export default function LojaDinamica() {
                         id={prod.id} 
                         nome={prod.nome} 
                         preco={Number(prod.preco)} 
-                        imagem={prod.imagemUrl || "/images/produtorare1.svg"}
+                        imagem={prod.imagens?.[0]?.url_imagem || prod.imagens?.[1]?.url_imagem ||prod.imagens?.[2]?.url_imagem||prod.imagens?.[3]?.url_imagem }
                         estoque={prod.estoque} 
                     />
                 ))}

@@ -4,7 +4,7 @@
 "use client";
 
 import { X, Plus, Minus, ChevronDown, Trash, Upload } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3001";
@@ -16,13 +16,21 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
   const [preco, setPreco] = useState("");
   const [categoriaId, setCategoriaId] = useState("");
 
-  // Lista dinâmica igual ao editar
+  const [categorias, setCategorias] = useState<any[]>([]);
   const [fotos, setFotos] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
 
+  useEffect(() => {
+    
+    fetch(`${API_BASE}/categoria`)
+      .then((res) => res.json())
+      .then((data) => setCategorias(data))
+      .catch(() => toast.error("Erro ao carregar categorias."));
+  }, []);
+
+  // Só agora o retorno condicional
   if (!isOpen) return null;
 
-  //Adicionar nova foto (máx 4)
   function adicionarFoto(e: any) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -33,29 +41,27 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
     setPreviews((prev) => [...prev, URL.createObjectURL(file)]);
   }
 
-  //Alterar alguma imagem existente
   function alterarImagem(e: any, index: number) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const novaLista = [...fotos];
-    novaLista[index] = file;
-    setFotos(novaLista);
+    const nova = [...fotos];
+    nova[index] = file;
+    setFotos(nova);
 
-    const novosPrev = [...previews];
-    novosPrev[index] = URL.createObjectURL(file);
-    setPreviews(novosPrev);
+    const prev = [...previews];
+    prev[index] = URL.createObjectURL(file);
+    setPreviews(prev);
   }
 
-  //Remover imagem
   function removerImagem(index: number) {
-    const novaLista = [...fotos];
-    novaLista.splice(index, 1);
-    setFotos(novaLista);
+    const nova = [...fotos];
+    nova.splice(index, 1);
+    setFotos(nova);
 
-    const novosPrev = [...previews];
-    novosPrev.splice(index, 1);
-    setPreviews(novosPrev);
+    const prev = [...previews];
+    prev.splice(index, 1);
+    setPreviews(prev);
   }
 
   function limparFormulario() {
@@ -102,7 +108,7 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-      <div className="bg-[#EDEDED] w-[750px] max-h-[85vh] overflow-y-auto p-10 rounded-3xl relative shadow-xl">
+      <div className="bg-[#EDEDED] text-black w-[750px] max-h-[85vh] overflow-y-auto p-10 rounded-3xl relative shadow-xl">
 
         <button onClick={onClose} className="absolute right-6 top-6 text-gray-600 hover:text-black">
           <X size={30} />
@@ -110,10 +116,9 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
 
         <h1 className="text-center text-[32px] font-semibold mb-8">Adicionar Produto</h1>
 
-        {/* ---------------- IMAGENS (idêntico ao EDITAR) ---------------- */}
+        {/* Imagens */}
         <div className="flex flex-col items-center gap-4 mb-8">
 
-          {/* Imagem principal */}
           {previews[0] && (
             <ImagemEditorNovo
               imagem={previews[0]}
@@ -124,7 +129,6 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
             />
           )}
 
-          {/* Imagens menores + botão adicionar */}
           <div className="flex gap-6">
             {previews.slice(1).map((prev, i) => (
               <ImagemEditorNovo
@@ -137,17 +141,13 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
               />
             ))}
 
-            {/* Botão ADICIONAR */}
             {previews.length < 4 && (
-              <label
-                className="border-2 border-dashed border-purple-400 rounded-xl w-[110px] h-[110px] flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 transition"
-              >
+              <label className="border-2 border-dashed border-purple-400 rounded-xl w-[110px] h-[110px] flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 transition">
                 <Plus className="text-purple-600" />
                 <span className="text-purple-600 text-xs mt-1">Adicionar</span>
                 <input type="file" className="hidden" onChange={adicionarFoto} />
               </label>
             )}
-
           </div>
         </div>
 
@@ -160,6 +160,7 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
             onChange={(e) => setNome(e.target.value)}
           />
 
+          {/* SELECT */}
           <div className="relative">
             <select
               className="bg-white p-4 rounded-xl w-full appearance-none"
@@ -167,8 +168,12 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
               onChange={(e) => setCategoriaId(e.target.value)}
             >
               <option value="" disabled>Categoria</option>
-              <option value="1">Roupas</option>
-              <option value="2">Calçados</option>
+
+              {categorias.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.nome}
+                </option>
+              ))}
             </select>
 
             <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500" />
@@ -219,8 +224,6 @@ export default function ModalAddProduto({ isOpen, onClose, lojaId = 1 }: any) {
     </div>
   );
 }
-
-/* ---------------- COMPONENTE DE IMAGEM (idêntico ao EDITAR) ---------------- */
 
 function ImagemEditorNovo({ imagem, onRemove, onChange, width, height }: any) {
   return (
