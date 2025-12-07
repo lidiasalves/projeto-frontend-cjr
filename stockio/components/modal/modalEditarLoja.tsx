@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { api } from "@/services/api"; 
 import { categoriesData } from "@/mock/categoriasMock"; 
+import { toast } from "react-toastify"
+import { useRouter } from "next/navigation";
 
 const UploadArea = ({ label, icon, id }: { label: string; icon: string; id: string }) => (
   <label 
@@ -48,6 +50,7 @@ const ModalEditarLoja: React.FC<ModalProps> = ({
   const [nome, setNome] = useState(loja?.nome || "");
   const [categoria, setCategoria] = useState(loja?.categoria || "");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // 2. SINCRONIZAÇÃO: Se a loja mudar (ex: abriu outra), atualiza os campos
   useEffect(() => {
@@ -65,12 +68,12 @@ const ModalEditarLoja: React.FC<ModalProps> = ({
     try {
       setLoading(true);
       await api.put(`/loja/${loja.id}`, { nome, categoria });
-      console.log("Loja atualizada!");
+      toast.success("Loja atualizada!");
       onSucesso(); 
       onClose();   
     } catch (error) {
       console.error("Erro ao atualizar loja:", error);
-      alert("Erro ao salvar alterações.");
+      toast.error("Erro ao salvar alterações.");
     } finally {
       setLoading(false);
     }
@@ -82,12 +85,13 @@ const ModalEditarLoja: React.FC<ModalProps> = ({
     try {
       setLoading(true);
       await api.delete(`/loja/${loja.id}`);
-      console.log("Loja deletada!");
+      toast.success("Loja deletada!");
       onSucesso(); 
-      onClose();   
+      onClose();  
+      router.push(`/perfil`); 
     } catch (error) {
       console.error("Erro ao deletar loja:", error);
-      alert("Erro ao deletar loja.");
+      toast.error("Erro ao deletar loja.");
     } finally {
       setLoading(false);
     }

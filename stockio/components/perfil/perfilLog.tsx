@@ -127,41 +127,55 @@ export default function Profile() {
           </h2>
           
           {todosProdutos.length > 0 ? (
-            <div className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide">
-              {todosProdutos.map((prod: any) => {
-                const imgSrc =
-                    prod.imagens?.find((img: any) => img?.url_imagem)?.url_imagem || null;
+  <div>
+    {/* CARROSSEL LIMITADO A 8 PRODUTOS */}
+    <div className="flex gap-4 overflow-x-auto pb-4 snap-x scrollbar-hide">
+      {todosProdutos.slice(0, 8).map((prod: any) => {
+        const imgSrc =
+          prod.imagens?.find((img: any) => img?.url_imagem)?.url_imagem || null;
 
-                return (
-                    <div key={prod.id} className="min-w-[200px] w-[200px] bg-white p-4 rounded-2xl shadow-sm border border-gray-100 snap-center hover:shadow-md transition">
-                        <div className="h-32 bg-gray-100 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden">
-                            
-                            {imgSrc ? (
-                                <img
-                                    src={imgSrc}
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <ShoppingBag className="text-gray-300 w-10 h-10" />
-                            )}
+        return (
+          <div
+            key={prod.id}
+            className="min-w-[200px] w-[200px] bg-white p-4 rounded-2xl shadow-sm border border-gray-100 snap-center hover:shadow-md transition"
+          >
+            <div className="h-32 bg-gray-100 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden">
+              {imgSrc ? (
+                <img src={imgSrc} className="w-full h-full object-cover" />
+              ) : (
+                <ShoppingBag className="text-gray-300 w-10 h-10" />
+              )}
 
-                <span className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-2 py-0.5 rounded-full">
-                    {prod.nomeLoja}
-                </span>
+              <span className="absolute bottom-1 right-1 bg-black/70 text-white text-xs px-2 py-0.5 rounded-full">
+                {prod.nomeLoja}
+              </span>
             </div>
 
             <h3 className="font-bold text-gray-800 truncate">{prod.nome}</h3>
-            <p className="text-[#5E3C9E] font-bold mt-1">R$ {Number(prod.preco).toFixed(2)}</p>
-        </div>
-    );
-})}
-
-            </div>
-          ) : (
-            <p className="text-lg text-gray-500">
-              Você ainda não tem produtos cadastrados em suas lojas.
+            <p className="text-[#5E3C9E] font-bold mt-1">
+              R$ {Number(prod.preco).toFixed(2)}
             </p>
-          )}
+          </div>
+        );
+      })}
+    </div>
+
+    {/* BOTÃO VER MAIS */}
+    {todosProdutos.length > 8 && (
+      <button
+        onClick={() => router.push("/perfil/produtos")}
+        className="mt-4 text-[#5E3C9E] font-semibold hover:underline text-lg"
+      >
+        Ver mais produtos ({todosProdutos.length - 8} restantes)
+      </button>
+    )}
+  </div>
+) : (
+  <p className="text-lg text-gray-500">
+    Você ainda não tem produtos cadastrados em suas lojas.
+  </p>
+)}
+
         </section>
 
         {/* 2. SEÇÃO LOJAS */}
