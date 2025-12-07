@@ -68,6 +68,7 @@ export default function ProdutosDoPerfil() {
                 return (
                   <div
                     key={prod.id}
+                    onClick={() => router.push(`/produto/${prod.id}`)}
                     className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200 hover:shadow-md transition"
                   >
                     <div className="h-32 bg-gray-100 rounded-xl mb-3 flex items-center justify-center overflow-hidden">

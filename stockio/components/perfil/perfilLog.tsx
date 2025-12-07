@@ -139,6 +139,7 @@ export default function Profile() {
         return (
           <div
             key={prod.id}
+            onClick={() => router.push(`/produto/${prod.id}`)}
             className="min-w-[200px] w-[200px] bg-white p-4 rounded-2xl shadow-sm border border-gray-100 snap-center hover:shadow-md transition"
           >
             <div className="h-32 bg-gray-100 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden">
